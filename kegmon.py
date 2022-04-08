@@ -1,6 +1,6 @@
 #region Imports
 
-#Going to need to add chromium-browser --kiosk http://192.168.2.2:8123/lovelace/beer to .bashrc
+#TODO: Add temp sensors on pins 8 and 15 for L/R and figure out how I'm doing regular temperature polling
 
 import time
 from threading import Event
