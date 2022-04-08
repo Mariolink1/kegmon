@@ -1,6 +1,6 @@
 #region Imports
 
-#Going to need to add chromium-browser --kiosk http://192.168.2.2:8123/lovelace/beer to .bashrc
+#TODO: Add temperature sensors on 8 and 15 for left and right respectively
 
 import time
 from threading import Event
