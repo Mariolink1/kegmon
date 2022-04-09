@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+#Start CMD:
+#nohup python -u ./kegmon.py> output.log &
 #region Imports
 
-#TODO: Add temp sensors on pins 8 and 15 for L/R and figure out how I'm doing regular temperature polling
+#TODO: Add temp sensors on pins 2 and 14 for L/R and figure out how I'm doing regular temperature polling
 
 import time
 from threading import Event
@@ -15,6 +18,8 @@ import os.path
 
 GPIO_tap0 = 3
 GPIO_tap1 = 4
+GPIO_temp0 = 8
+GPIO_temp1 = 12
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_tap0, GPIO.IN, pull_up_down=GPIO.PUD_UP)
