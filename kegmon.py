@@ -68,8 +68,8 @@ def on_message(client, userdata, message):
             print("Changed flow0 to '"+(msg.split("change ",1)[1])+"'")
             keg0status()
         elif "keg" in msg:
-            flow0.setKeg((msg.split("change ",1)[1]))
-            print("Changed flow0 to '"+(msg.split("change ",1)[1])+"'")
+            flow0.setKeg((msg.split("keg ",1)[1]))
+            print("Changed flow0 to '"+(msg.split("keg ",1)[1])+"'")
             keg0status()
         elif "report" in msg:
             keg0status()
@@ -83,8 +83,8 @@ def on_message(client, userdata, message):
             print("Changed flow1 to '"+(msg.split("change ",1)[1])+"'")
             keg1status()
         elif "keg" in msg:
-            flow1.setKeg((msg.split("change ",1)[1]))
-            print("Changed flow1 to '"+(msg.split("change ",1)[1])+"'")
+            flow1.setKeg((msg.split("keg ",1)[1]))
+            print("Changed flow1 to '"+(msg.split("keg ",1)[1])+"'")
             keg1status()
         elif "report" in msg:
             keg1status()
