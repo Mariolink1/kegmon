@@ -13,8 +13,8 @@ import os.path
 #endregion
 #region GPIO + Flowmeter Library Configuration
 
-GPIO_tap0 = 7
-GPIO_tap1 = 9
+GPIO_tap0 = 2
+GPIO_tap1 = 4
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_tap0, GPIO.IN, pull_up_down=GPIO.PUD_UP)
