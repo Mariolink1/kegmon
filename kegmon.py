@@ -105,12 +105,12 @@ keg1status()
 while True:
     currentTime = int(time.time() * 1000)
     
-    if (flow0.thisPour > 0.23 and currentTime - flow0.lastClick > 3000): # 3 seconds of inactivity causes an update
+    if (flow0.thisPour > 0.05 and currentTime - flow0.lastClick > 3000): # 3 seconds of inactivity causes an update
         print("Detected "+ flow0.getFormattedThisPour()+ " of "+ flow0.getBeverage()+" poured. Total volume of "+flow0.getFormattedTotalPour()+" poured. "+flow0.getFormattedBeerLeft() + " or " + flow0.getPercentLeft() +" percent remaining in "+flow0.getKeg().capitalize()+" keg.")
         keg0status()
         flow0.thisPour = 0.0
 
-    if (flow1.thisPour > 0.23 and currentTime - flow1.lastClick > 3000): # 3 seconds of inactivity causes an update
+    if (flow1.thisPour > 0.05 and currentTime - flow1.lastClick > 3000): # 3 seconds of inactivity causes an update
         print("Detected "+ flow1.getFormattedThisPour()+ " of "+ flow1.getBeverage()+" poured. Total volume of "+flow1.getFormattedTotalPour()+" poured. "+flow1.getFormattedBeerLeft() + " or " + flow0.getPercentLeft() +" percent remaining in "+flow1.getKeg().capitalize()+" keg.")
         keg1status()
         flow1.thisPour = 0.0
