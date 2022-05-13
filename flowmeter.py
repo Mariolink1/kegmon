@@ -43,7 +43,7 @@ class FlowMeter():
     if (self.enabled == True and self.clickDelta < 1000):
       self.hertz = FlowMeter.MS_IN_A_SECOND / self.clickDelta
       self.flow = self.hertz / (FlowMeter.SECONDS_IN_A_MINUTE * 7.5)  # In Liters per second
-      instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
+      instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND) * 0.67 #Offset added to hopefully correct the calibration on the system 
       self.thisPour += instPour
       self.totalPour += instPour
     # Update the last click
