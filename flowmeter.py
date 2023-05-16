@@ -45,7 +45,7 @@ class FlowMeter():
       self.hertz = FlowMeter.MS_IN_A_SECOND / self.clickDelta
       self.flow = self.hertz / (FlowMeter.SECONDS_IN_A_MINUTE * 7.5)  # In Liters per second
       instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
-
+      self.thisPour += instPour
     self.thisPour = self.thisPour * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
     self.totalPour += self.thisPour
     # Update the last click
