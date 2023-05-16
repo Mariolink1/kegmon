@@ -20,7 +20,7 @@ class FlowMeter():
   thisPour = 0.0 # in Liters
   totalPour = 0.0 # in Liters
   kegSize = 'quarter'
-  calibrationFactor = 0.67
+  calibrationFactor = 0.0
 
   def __init__(self, displayFormat, beverage, size):
     self.displayFormat = displayFormat
@@ -34,6 +34,7 @@ class FlowMeter():
     self.totalPour = 0.0
     self.enabled = True
     self.kegSize = size 
+    self.calibrationFactor = .67
     
 
   def update(self, currentTime):
