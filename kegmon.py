@@ -80,10 +80,11 @@ def on_message(client, userdata, message):
             keg0status()
         elif "set" in msg:
             flow0.setTotalPour(float(msg.split("set ",1)[1]))
-        elif "calibrate" in msg:
-            flow0.setKeg((msg.split("keg ",1)[1]))
-            print("Recalibrated flow 0")
             keg0status()
+        elif "calibrate" in msg:
+            flow0.calibrate((msg.split("calibrate ",1)[1]))
+            keg0status()
+
     elif "tap1" in msg:
         if "reset" in msg:
             flow1.clear()
@@ -101,10 +102,11 @@ def on_message(client, userdata, message):
             keg1status()
         elif "set" in msg:
             flow1.setTotalPour(float(msg.split("set ",1)[1]))
-        elif "calibrate" in msg:
-            flow1.setKeg((msg.split("keg ",1)[1]))
-            print("Recalibrated flow 1")
             keg1status()
+        elif "calibrate" in msg:
+            flow1.calibrate((msg.split("calibrate ",1)[1]))
+            keg1status()
+
 
 client = mqtt.Client(client_id="kegerator")
 client.username_pw_set(username="homeassistant", password="AidaTh7EeP0puChoh6yuJieM5CooChohie6ioghahcoov7aJeekoof6fol0oovoo")
