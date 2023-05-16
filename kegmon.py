@@ -26,12 +26,12 @@ GPIO.setup(GPIO_tap0, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(GPIO_tap1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #Checks for pickled files in the running directory, otherwise makes new flow objects
-if((os.path.exists('./keg0.pkl'))):
-    flow0 = pickle.load(open('./keg0.pkl', 'rb'))
+if((os.path.exists('/home/kegmon/kegmon/keg0.pkl'))):
+    flow0 = pickle.load(open('/home/kegmon/kegmon/keg0.pkl', 'rb'))
 else:
     flow0 = FlowMeter("american", "left tap","quarter")
-if((os.path.exists('./keg1.pkl'))):
-    flow1 = pickle.load(open('./keg1.pkl', 'rb'))
+if((os.path.exists('/home/kegmon/kegmon/keg1.pkl'))):
+    flow1 = pickle.load(open('/home/kegmon/kegmon/keg1.pkl', 'rb'))
 else:
     flow1 = FlowMeter("american", "right tap","quarter")
 
@@ -52,11 +52,11 @@ GPIO.add_event_detect(GPIO_tap1, GPIO.RISING, callback=draw1, bouncetime=20)
 
 def keg0status():
     client.publish("keg","flow0,"+flow0.getFormattedThisPour().split(" ",1)[0]+","+flow0.getFormattedTotalPour().split(" ",1)[0] + "," + flow0.getFormattedBeerLeft().split(" ",1)[0] + "," + flow0.getPercentLeft()+","+flow0.getKeg().capitalize()+","+flow0.getBeverage())
-    pickle.dump(flow0, open('keg0.pkl', 'wb'))
+    pickle.dump(flow0, open('/home/kegmon/kegmon/keg0.pkl', 'wb'))
 
 def keg1status():
     client.publish("keg","flow1,"+flow1.getFormattedThisPour().split(" ",1)[0]+","+flow1.getFormattedTotalPour().split(" ",1)[0] + "," + flow1.getFormattedBeerLeft().split(" ",1)[0] + "," + flow1.getPercentLeft()+","+flow1.getKeg().capitalize()+","+flow1.getBeverage())
-    pickle.dump(flow1, open('keg1.pkl', 'wb'))
+    pickle.dump(flow1, open('/home/kegmon/kegmon/keg1.pkl', 'wb'))
 
 def on_message(client, userdata, message):
     msg = str(message.payload.decode("utf-8"))
@@ -78,6 +78,12 @@ def on_message(client, userdata, message):
             keg0status()
         elif "report" in msg:
             keg0status()
+        elif "set" in msg:
+            flow0.setTotalPour(float(msg.split("set ",1)[1]))
+        elif "calibrate" in msg:
+            flow0.setKeg((msg.split("keg ",1)[1]))
+            print("Recalibrated flow 0")
+            keg0status()
     elif "tap1" in msg:
         if "reset" in msg:
             flow1.clear()
@@ -93,10 +99,16 @@ def on_message(client, userdata, message):
             keg1status()
         elif "report" in msg:
             keg1status()
+        elif "set" in msg:
+            flow1.setTotalPour(float(msg.split("set ",1)[1]))
+        elif "calibrate" in msg:
+            flow1.setKeg((msg.split("keg ",1)[1]))
+            print("Recalibrated flow 1")
+            keg1status()
 
 client = mqtt.Client(client_id="kegerator")
 client.username_pw_set(username="homeassistant", password="AidaTh7EeP0puChoh6yuJieM5CooChohie6ioghahcoov7aJeekoof6fol0oovoo")
-client.connect("192.168.2.2",port=1883)
+client.connect("192.168.1.27",port=1883)
 client.on_message=on_message 
 
 #endregion
