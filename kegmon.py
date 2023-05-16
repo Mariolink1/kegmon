@@ -97,7 +97,7 @@ def on_message(client, userdata, message):
             flow1.setKeg((msg.split("keg ",1)[1]))
             print("Changed flow1 to '"+(msg.split("keg ",1)[1])+"'")
             keg1status()
-        elif "report" in msg:oh wait
+        elif "report" in msg:
             keg1status()
         elif "set" in msg:
             flow1.setTotalPour(float(msg.split("set ",1)[1]))
