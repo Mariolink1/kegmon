@@ -111,14 +111,15 @@ class FlowMeter():
     return(str(round(100*((kegVol-self.totalPour)/kegVol),3)))
 
   def clear(self):
-    self.thisPour = 0;
-    self.totalPour = 0;
+    self.thisPour = 0
+    self.totalPour = 0
 
   def calibrate(self, gBeer):
+    gBeer=float(gBeer)
     #clean up last pour
     self.totalPour = (self.totalPour-self.thisPour)
     #calculate relative error
-    relError = ((self.thisPour-(gBeer/1000))/(gBeer/1000))
+    relError = ((self.thisPour-(gBeer/1000.0))/(gBeer/1000.0))
     #undo total pour
     self.thisPour = (self.thisPour/self.calibrationFactor)
     #set new calibration factor
