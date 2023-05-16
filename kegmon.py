@@ -84,6 +84,8 @@ def on_message(client, userdata, message):
             flow0.setKeg((msg.split("keg ",1)[1]))
             print("Recalibrated flow 0")
             keg0status()
+        elif "dump" in msg:
+            pickle.dump(flow0, open('/home/kegmon/kegmon/keg0.pkl', 'wb'))
     elif "tap1" in msg:
         if "reset" in msg:
             flow1.clear()
@@ -105,6 +107,8 @@ def on_message(client, userdata, message):
             flow1.setKeg((msg.split("keg ",1)[1]))
             print("Recalibrated flow 1")
             keg1status()
+        elif "dump" in msg:
+            pickle.dump(flow1, open('/home/kegmon/kegmon/keg1.pkl', 'wb'))
 
 client = mqtt.Client(client_id="kegerator")
 client.username_pw_set(username="homeassistant", password="AidaTh7EeP0puChoh6yuJieM5CooChohie6ioghahcoov7aJeekoof6fol0oovoo")
