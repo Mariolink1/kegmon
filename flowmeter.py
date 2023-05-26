@@ -91,6 +91,9 @@ class FlowMeter():
   def setTotalPour(self, newTot):
     self.totalPour = newTot
 
+  def setThisPour(self, newTot):
+    self.thisPour = newTot
+
   def getFormattedBeerLeft(self):
     kegVol = 0
     if (self.kegSize == "quarter"):
