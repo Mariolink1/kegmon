@@ -46,9 +46,8 @@ class FlowMeter():
       self.hertz = FlowMeter.MS_IN_A_SECOND / self.clickDelta
       self.flow = self.hertz / (FlowMeter.SECONDS_IN_A_MINUTE * 7.5)  # In Liters per second
       instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
-      self.thisPour += instPour
-    self.thisPour = self.thisPour * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
-    self.totalPour += self.thisPour
+      self.thisPour += instPour * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
+      self.totalPour += self.thisPour
     # Update the last click
     self.lastClick = currentTime
 
@@ -75,24 +74,24 @@ class FlowMeter():
       return str(round(self.flow,3)) + ' L/s'
     else:
       return str(round(self.flow * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints/s'
-  
+
+  def setThisPour(self, newPour):
+    self.thisPour = newPour 
+ 
   def getFormattedThisPour(self):
     if(self.displayFormat == 'metric'):
       return str(round(self.thisPour,3)) + ' L'
     else:
       return str(round(self.thisPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
-  
+
+  def setTotalPour(self, newTot):
+    self.totalPour = newTot
+
   def getFormattedTotalPour(self):
     if(self.displayFormat == 'metric'):
       return str(round(self.totalPour,3)) + ' L'
     else:
       return str(round(self.totalPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
-
-  def setTotalPour(self, newTot):
-    self.totalPour = newTot
-
-  def setThisPour(self, newTot):
-    self.thisPour = newTot
 
   def getFormattedBeerLeft(self):
     kegVol = 0
