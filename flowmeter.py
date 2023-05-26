@@ -119,7 +119,7 @@ class FlowMeter():
 
   def calibrate(self, gBeer):
     gBeer=float(gBeer)
-    if self.thisPour>0:
+    if (self.thisPour>0):
     #clean up last pour
       self.totalPour = (self.totalPour-self.thisPour)
     #calculate relative error
