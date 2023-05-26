@@ -50,8 +50,9 @@ class FlowMeter():
       instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
       self.thisPour += instPour * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
       self.totalPour += self.thisPour
-      self.lastPour = self.thisPour
     # Update the last click
+    if (self.thisPour>0):
+      self.lastPour=self.thisPour
     self.lastClick = currentTime
 
   def getBeverage(self):
@@ -92,9 +93,9 @@ class FlowMeter():
 
   def getFormattedTotalPour(self):
     if(self.displayFormat == 'metric'):
-      return str(round(self.totalPour,3)) + ' L'
+      return str(round(self.lastPour,3)) + ' L'
     else:
-      return str(round(self.totalPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
+      return str(round(self.lastPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def getFormattedBeerLeft(self):
     kegVol = 0
@@ -103,9 +104,9 @@ class FlowMeter():
     else:
       kegVol = 19.55
     if(self.displayFormat == 'metric'):
-      return str(round((kegVol-self.totalPour),3)) + ' L'
+      return str(round((kegVol-self.lastPour),3)) + ' L'
     else:
-      return str(round((kegVol-self.totalPour) * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
+      return str(round((kegVol-self.lastPour) * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def getPercentLeft(self):
     kegVol = 0
@@ -113,7 +114,7 @@ class FlowMeter():
       kegVol = 29.34
     else:
       kegVol = 19.55
-    return(str(round(100*((kegVol-self.totalPour)/kegVol),3)))
+    return(str(round(100*((kegVol-self.lastPour)/kegVol),3)))
 
   def clear(self):
     self.thisPour = 0
