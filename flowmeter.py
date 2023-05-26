@@ -133,3 +133,6 @@ class FlowMeter():
       self.totalPour = (self.totalPour+self.thisPour)
     else:
       self.calibrationFactor = gBeer
+
+  def getCali(self):
+    return self.calibrationFactor      

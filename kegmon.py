@@ -51,11 +51,11 @@ GPIO.add_event_detect(GPIO_tap1, GPIO.RISING, callback=draw1, bouncetime=20)
 #region MQTT Configuration
 
 def keg0status():
-    client.publish("keg","flow0,"+flow0.getFormattedThisPour().split(" ",1)[0]+","+flow0.getFormattedTotalPour().split(" ",1)[0] + "," + flow0.getFormattedBeerLeft().split(" ",1)[0] + "," + flow0.getPercentLeft()+","+flow0.getKeg().capitalize()+","+flow0.getBeverage())
+    client.publish("keg","flow0,"+flow0.getFormattedThisPour().split(" ",1)[0]+","+flow0.getFormattedTotalPour().split(" ",1)[0] + "," + flow0.getFormattedBeerLeft().split(" ",1)[0] + "," + flow0.getPercentLeft()+","+flow0.getKeg().capitalize()+","+flow0.getBeverage()+","+flow0.getCali())
     pickle.dump(flow0, open('/home/kegmon/kegmon/keg0.pkl', 'wb'))
 
 def keg1status():
-    client.publish("keg","flow1,"+flow1.getFormattedThisPour().split(" ",1)[0]+","+flow1.getFormattedTotalPour().split(" ",1)[0] + "," + flow1.getFormattedBeerLeft().split(" ",1)[0] + "," + flow1.getPercentLeft()+","+flow1.getKeg().capitalize()+","+flow1.getBeverage())
+    client.publish("keg","flow1,"+flow1.getFormattedThisPour().split(" ",1)[0]+","+flow1.getFormattedTotalPour().split(" ",1)[0] + "," + flow1.getFormattedBeerLeft().split(" ",1)[0] + "," + flow1.getPercentLeft()+","+flow1.getKeg().capitalize()+","+flow1.getBeverage()+","+flow1.getCali())
     pickle.dump(flow1, open('/home/kegmon/kegmon/keg1.pkl', 'wb'))
 
 def on_message(client, userdata, message):
