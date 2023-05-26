@@ -135,4 +135,4 @@ class FlowMeter():
       self.calibrationFactor = gBeer
 
   def getCali(self):
-    return self.calibrationFactor      
+    return str(self.calibrationFactor)      
