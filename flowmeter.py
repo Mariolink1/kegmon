@@ -18,6 +18,7 @@ class FlowMeter():
   hertz = 0.0
   flow = 0 # in Liters per second
   thisPour = 0.0 # in Liters
+  lastPour = 0.0 # in Liters
   totalPour = 0.0 # in Liters
   kegSize = 'quarter'
   calibrationFactor = 0.0
@@ -31,6 +32,7 @@ class FlowMeter():
     self.hertz = 0.0
     self.flow = 0.0
     self.thisPour = 0.0
+    self.lastPour = 0.0
     self.totalPour = 0.0
     self.enabled = True
     self.kegSize = size 
@@ -48,6 +50,7 @@ class FlowMeter():
       instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
       self.thisPour += instPour * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
       self.totalPour += self.thisPour
+      self.lastPour = self.thisPour
     # Update the last click
     self.lastClick = currentTime
 
@@ -76,7 +79,7 @@ class FlowMeter():
       return str(round(self.flow * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints/s'
 
   def setThisPour(self, newPour):
-    self.thisPour = newPour 
+    self.lastPour = newPour 
  
   def getFormattedThisPour(self):
     if(self.displayFormat == 'metric'):
@@ -114,22 +117,23 @@ class FlowMeter():
 
   def clear(self):
     self.thisPour = 0
+    self.lastPour = 0
     self.totalPour = 0
 
   def calibrate(self, gBeer):
     gBeer=float(gBeer)
-    if (self.thisPour>0):
+    if (self.lastPour>0):
     #clean up last pour
-      self.totalPour = (self.totalPour-self.thisPour)
+      self.totalPour = (self.totalPour-self.lastPour)
     #calculate relative error
-      relError = ((self.thisPour-(gBeer/1000.0))/(gBeer/1000.0))
+      relError = ((self.lastPour-(gBeer/1000.0))/(gBeer/1000.0))
     #undo total pour
-      self.thisPour = (self.thisPour/self.calibrationFactor)
+      self.lastPour = (self.lastPour/self.calibrationFactor)
     #set new calibration factor
       self.calibrationFactor= (self.calibrationFactor/(1+relError))
     #set new pour data
-      self.thisPour = (self.thisPour*self.calibrationFactor)
-      self.totalPour = (self.totalPour+self.thisPour)
+      self.lastPour = (self.lastPour*self.calibrationFactor)
+      self.totalPour = (self.totalPour+self.lastPour)
     else:
       self.calibrationFactor = gBeer
 
