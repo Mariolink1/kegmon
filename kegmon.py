@@ -84,8 +84,8 @@ def on_message(client, userdata, message):
         elif "calibrate" in msg:
             flow0.calibrate((msg.split("calibrate ",1)[1]))
             keg0status()
-        elif "setlast" in msg:
-            flow0.setThisPour(float(msg.split("setlast ",1)[1]))
+        elif "last" in msg:
+            flow0.setThisPour(float(msg.split("last ",1)[1]))
             keg0status()
 
     elif "tap1" in msg:
@@ -109,8 +109,8 @@ def on_message(client, userdata, message):
         elif "calibrate" in msg:
             flow1.calibrate((msg.split("calibrate ",1)[1]))
             keg1status()
-        elif "setlast" in msg:
-            flow1.setThisPour(float(msg.split("setlast ",1)[1]))
+        elif "last" in msg:
+            flow1.setThisPour(float(msg.split("last ",1)[1]))
             keg1status()
 
 client = mqtt.Client(client_id="kegerator")
