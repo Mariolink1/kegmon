@@ -18,7 +18,6 @@ class FlowMeter():
   hertz = 0.0
   flow = 0 # in Liters per second
   thisPour = 0.0 # in Liters
-  lastPour = 0.0 # in Liters
   totalPour = 0.0 # in Liters
   kegSize = 'quarter'
   calibrationFactor = 0.0
@@ -32,11 +31,10 @@ class FlowMeter():
     self.hertz = 0.0
     self.flow = 0.0
     self.thisPour = 0.0
-    self.lastPour = 0.0
     self.totalPour = 0.0
     self.enabled = True
     self.kegSize = size 
-    self.calibrationFactor = .67
+    self.calibrationFactor = .22
     
 
   def update(self, currentTime):
@@ -48,11 +46,10 @@ class FlowMeter():
       self.hertz = FlowMeter.MS_IN_A_SECOND / self.clickDelta
       self.flow = self.hertz / (FlowMeter.SECONDS_IN_A_MINUTE * 7.5)  # In Liters per second
       instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
-      self.thisPour += instPour * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
-      self.totalPour += self.thisPour
+      instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND) * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
+      self.thisPour += instPour
+      self.totalPour += instPour
     # Update the last click
-    if (self.thisPour>0):
-      self.lastPour=self.thisPour
     self.lastClick = currentTime
 
   def getBeverage(self):
@@ -80,7 +77,7 @@ class FlowMeter():
       return str(round(self.flow * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints/s'
 
   def setThisPour(self, newPour):
-    self.lastPour = newPour 
+    self.thisPour = newPour 
  
   def getFormattedThisPour(self):
     if(self.displayFormat == 'metric'):
@@ -93,9 +90,9 @@ class FlowMeter():
 
   def getFormattedTotalPour(self):
     if(self.displayFormat == 'metric'):
-      return str(round(self.lastPour,3)) + ' L'
+      return str(round(self.thisPour,3)) + ' L'
     else:
-      return str(round(self.lastPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
+      return str(round(self.thisPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def getFormattedBeerLeft(self):
     kegVol = 0
@@ -104,9 +101,9 @@ class FlowMeter():
     else:
       kegVol = 19.55
     if(self.displayFormat == 'metric'):
-      return str(round((kegVol-self.lastPour),3)) + ' L'
+      return str(round((kegVol-self.thisPour),3)) + ' L'
     else:
-      return str(round((kegVol-self.lastPour) * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
+      return str(round((kegVol-self.thisPour) * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def getPercentLeft(self):
     kegVol = 0
@@ -114,29 +111,28 @@ class FlowMeter():
       kegVol = 29.34
     else:
       kegVol = 19.55
-    return(str(round(100*((kegVol-self.lastPour)/kegVol),3)))
+    return(str(round(100*((kegVol-self.thisPour)/kegVol),3)))
 
   def clear(self):
     self.thisPour = 0
-    self.lastPour = 0
     self.totalPour = 0
 
-  def calibrate(self, gBeer):
-    gBeer=float(gBeer)
-    if (self.lastPour>0):
-    #clean up last pour
-      self.totalPour = (self.totalPour-self.lastPour)
-    #calculate relative error
-      relError = ((self.lastPour-(gBeer/1000.0))/(gBeer/1000.0))
-    #undo total pour
-      self.lastPour = (self.lastPour/self.calibrationFactor)
-    #set new calibration factor
-      self.calibrationFactor= (self.calibrationFactor/(1+relError))
-    #set new pour data
-      self.lastPour = (self.lastPour*self.calibrationFactor)
-      self.totalPour = (self.totalPour+self.lastPour)
-    else:
-      self.calibrationFactor = gBeer
+  # def calibrate(self, gBeer):
+  #   gBeer=float(gBeer)
+  #   if (self.thisPour>0):
+  #   #clean up last pour
+  #     self.totalPour = (self.totalPour-self.thisPour)
+  #   #calculate relative error
+  #     relError = ((self.thisPour-(gBeer/1000.0))/(gBeer/1000.0))
+  #   #undo total pour
+  #     self.thisPour = (self.thisPour/self.calibrationFactor)
+  #   #set new calibration factor
+  #     self.calibrationFactor= (self.calibrationFactor/(1+relError))
+  #   #set new pour data
+  #     self.thisPour = (self.thisPour*self.calibrationFactor)
+  #     self.totalPour = (self.totalPour+self.thisPour)
+  #   else:
+  #     self.calibrationFactor = gBeer
 
-  def getCali(self):
-    return str(self.calibrationFactor)      
+  # def getCali(self):
+  #   return str(self.calibrationFactor)      
