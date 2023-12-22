@@ -89,6 +89,9 @@ def on_message(client, userdata, message):
         elif "last" in msg:
             flow0.setThisPour((msg.split("last ",1)[1]))
             keg0status()
+        elif "gcali" in msg:
+            flow0.getCali()
+            keg0status()
 
     elif "tap1" in msg:
         if "reset" in msg:
@@ -115,6 +118,9 @@ def on_message(client, userdata, message):
             keg1status()
         elif "last" in msg:
             flow1.setThisPour((msg.split("last ",1)[1]))
+            keg1status()
+        elif "gcali" in msg:
+            flow1.getCali()
             keg1status()
 
 client = mqtt.Client(client_id="kegerator")
