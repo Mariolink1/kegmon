@@ -117,7 +117,7 @@ class FlowMeter():
     self.thisPour = 0
     self.totalPour = 0
 
-def calibrate(self, gBeer):
+  def calibrate(self, gBeer):
     gBeer=float(gBeer)
     if (self.thisPour>0):
     #clean up last pour
@@ -133,5 +133,5 @@ def calibrate(self, gBeer):
       self.totalPour = (self.totalPour+self.thisPour)
     else:
       self.calibrationFactor = gBeer
-def getCali(self):
-  return str(self.calibrationFactor)      
+  def getCali(self):
+    return str(self.calibrationFactor)      
