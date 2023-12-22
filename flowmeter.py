@@ -45,7 +45,6 @@ class FlowMeter():
     if (self.enabled == True and self.clickDelta < 1000):
       self.hertz = FlowMeter.MS_IN_A_SECOND / self.clickDelta
       self.flow = self.hertz / (FlowMeter.SECONDS_IN_A_MINUTE * 7.5)  # In Liters per second
-      instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND)  
       instPour = self.flow * (self.clickDelta / FlowMeter.MS_IN_A_SECOND) * self.calibrationFactor #Offset added to hopefully correct the calibration on the system 
       self.thisPour += instPour
       self.totalPour += instPour
@@ -77,7 +76,7 @@ class FlowMeter():
       return str(round(self.flow * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints/s'
 
   def setThisPour(self, newPour):
-    self.thisPour = float(newPour) 
+      self.thisPour = float(newPour) 
  
   def getFormattedThisPour(self):
     if(self.displayFormat == 'metric'):
@@ -86,7 +85,7 @@ class FlowMeter():
       return str(round(self.thisPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def setTotalPour(self, newTot):
-    self.totalPour = float(newTot)
+      self.totalPour = float(newTot)
 
   def getFormattedTotalPour(self):
     if(self.displayFormat == 'metric'):
