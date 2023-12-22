@@ -101,9 +101,9 @@ class FlowMeter():
     else:
       kegVol = 19.55
     if(self.displayFormat == 'metric'):
-      return str(round((kegVol-self.thisPour),3)) + ' L'
+      return str(round((kegVol-self.totalPour),3)) + ' L'
     else:
-      return str(round((kegVol-self.thisPour) * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
+      return str(round((kegVol-self.totalPour) * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def getPercentLeft(self):
     kegVol = 0
@@ -111,7 +111,7 @@ class FlowMeter():
       kegVol = 29.34
     else:
       kegVol = 19.55
-    return(str(round(100*((kegVol-self.thisPour)/kegVol),3)))
+    return(str(round(100*((kegVol-self.totalPour)/kegVol),3)))
 
   def clear(self):
     self.thisPour = 0
