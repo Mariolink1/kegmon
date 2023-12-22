@@ -150,11 +150,11 @@ while True:
         flow1.thisPour = 0.0
 
     # reset flow meter after each pour (2 secs of inactivity)
-    # if (flow0.thisPour <= 0.23 and currentTime - flow0.lastClick > 2000):
-    #     flow0.thisPour = 0.0
+    if (flow0.thisPour <= 0.23 and currentTime - flow0.lastClick > 2000):
+        flow0.thisPour = 0.0
     
-    # if (flow1.thisPour <= 0.23 and currentTime - flow1.lastClick > 2000):
-    #     flow1.thisPour = 0.0
+    if (flow1.thisPour <= 0.23 and currentTime - flow1.lastClick > 2000):
+        flow1.thisPour = 0.0
 
 
 client.loop_stop()
