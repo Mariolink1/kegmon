@@ -77,7 +77,7 @@ class FlowMeter():
       return str(round(self.flow * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints/s'
 
   def setThisPour(self, newPour):
-    self.thisPour = newPour 
+    self.thisPour = float(newPour) 
  
   def getFormattedThisPour(self):
     if(self.displayFormat == 'metric'):
@@ -86,7 +86,7 @@ class FlowMeter():
       return str(round(self.thisPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def setTotalPour(self, newTot):
-    self.totalPour = newTot
+    self.totalPour = float(newTot)
 
   def getFormattedTotalPour(self):
     if(self.displayFormat == 'metric'):
