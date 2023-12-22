@@ -82,8 +82,9 @@ def on_message(client, userdata, message):
             flow0.setTotalPour(float(msg.split("set ",1)[1]))
             keg0status()
         elif "calibrate" in msg:
-            keg1status()
+            #keg0status()
             flow0.calibrate((msg.split("calibrate ",1)[1]))
+            client.publish("keg","calibrating to "+(msg.split("calibrate ",1)[1]))
             keg0status()
         elif "last" in msg:
             flow0.setThisPour(float(msg.split("last ",1)[1]))
@@ -108,8 +109,9 @@ def on_message(client, userdata, message):
             flow1.setTotalPour(float(msg.split("set ",1)[1]))
             keg1status()
         elif "calibrate" in msg:
-            keg1status()
+            #keg1status()
             flow1.calibrate((msg.split("calibrate ",1)[1]))
+            client.publish("keg","calibrating to "+(msg.split("calibrate ",1)[1]))
             keg1status()
         elif "last" in msg:
             flow1.setThisPour(float(msg.split("last ",1)[1]))
