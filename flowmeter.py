@@ -119,6 +119,7 @@ class FlowMeter():
   def clear(self):
     self.thisPour = 0
     self.totalPour = 0
+    self.lastPour = 0
 
   def calibrate(self, gBeer):
     gBeer=float(gBeer)
