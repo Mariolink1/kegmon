@@ -81,9 +81,9 @@ class FlowMeter():
  
   def getFormattedThisPour(self):
     if(self.displayFormat == 'metric'):
-      return str(round(self.thisPour,3)) + ' L'
+      return str(round(self.totalPour,3)) + ' L'
     else:
-      return str(round(self.thisPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
+      return str(round(self.totalPour * FlowMeter.PINTS_IN_A_LITER, 3)) + ' pints'
 
   def setTotalPour(self, newTot):
     self.totalPour = newTot
