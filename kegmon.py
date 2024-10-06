@@ -55,7 +55,7 @@ def on_connect(client, userdata, flags, rc, properties):
 def on_connect_fail(client, userdata):
     print("connection failed")
 
-def on_disconnect(client, flags, rc):
+def on_disconnect(client, userdata, flags, rc, properties):
     print('Disconnected with result code ' + str(rc))
     client.reconnect()
 
