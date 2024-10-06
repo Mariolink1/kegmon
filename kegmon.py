@@ -132,7 +132,7 @@ def on_message(client, userdata, message):
             client.publish("keg",flow1.getCali())
             keg1status()
 
-client = mqtt.Client(client_id="kegerator")
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2,client_id="kegerator")
 client.username_pw_set(username="homeassistant", password="AidaTh7EeP0puChoh6yuJieM5CooChohie6ioghahcoov7aJeekoof6fol0oovoo")
 client.on_connect=on_connect
 client.on_message=on_message
