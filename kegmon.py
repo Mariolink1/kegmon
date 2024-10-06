@@ -57,6 +57,7 @@ def on_connect_fail(client, userdata):
 
 def on_disconnect(client, flags, rc):
     print('Disconnected with result code ' + str(rc))
+    client.reconnect()
 
 def keg0status():
     client.publish("keg","flow0,"+flow0.getFormattedThisPour().split(" ",1)[0]+","+flow0.getFormattedTotalPour().split(" ",1)[0] + "," + flow0.getFormattedBeerLeft().split(" ",1)[0] + "," + flow0.getPercentLeft()+","+flow0.getKeg().capitalize()+","+flow0.getBeverage())
