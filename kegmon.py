@@ -49,6 +49,14 @@ GPIO.add_event_detect(GPIO_tap1, GPIO.RISING, callback=draw1, bouncetime=20)
 
 #endregion
 #region MQTT Configuration
+def on_connect(client, userdata, flags, rc, properties):
+    client.subscribe("keg")
+
+def on_connect_fail(client, userdata):
+    print("connection failed")
+
+def on_disconnect(client, flags, rc):
+    print('Disconnected with result code ' + str(rc))
 
 def keg0status():
     client.publish("keg","flow0,"+flow0.getFormattedThisPour().split(" ",1)[0]+","+flow0.getFormattedTotalPour().split(" ",1)[0] + "," + flow0.getFormattedBeerLeft().split(" ",1)[0] + "," + flow0.getPercentLeft()+","+flow0.getKeg().capitalize()+","+flow0.getBeverage())
@@ -125,14 +133,16 @@ def on_message(client, userdata, message):
 
 client = mqtt.Client(client_id="kegerator")
 client.username_pw_set(username="homeassistant", password="AidaTh7EeP0puChoh6yuJieM5CooChohie6ioghahcoov7aJeekoof6fol0oovoo")
-client.connect("192.168.1.27",port=1883)
-client.on_message=on_message 
+client.on_connect=on_connect
+client.on_message=on_message
+client.on_disconnect = on_disconnect
+client.on_connect_fail = on_connect_fail
+client.connect("192.168.0.81",port=1883)
 
 #endregion
 #region Main loop
 
 client.loop_start()
-client.subscribe("keg")
 keg0status()
 keg1status()
 
