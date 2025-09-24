@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #Start CMD:
-#nohup python -u ./kegmon.py> output.log &
+#nohup python -u ./kegmon.py > output.log &
 #region Imports
 
 #TODO: Add temp sensors on pins 2 and 14 for L/R and figure out how I'm doing regular temperature polling
@@ -26,12 +26,12 @@ GPIO.setup(GPIO_tap0, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(GPIO_tap1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #Checks for pickled files in the running directory, otherwise makes new flow objects
-if((os.path.exists('/home/kegmon/kegmon/keg0.pkl'))):
-    flow0 = pickle.load(open('/home/kegmon/kegmon/keg0.pkl', 'rb'))
+if((os.path.exists('keg0.pkl'))):
+    flow0 = pickle.load(open('keg0.pkl', 'rb'))
 else:
     flow0 = FlowMeter("american", "left tap","quarter")
-if((os.path.exists('/home/kegmon/kegmon/keg1.pkl'))):
-    flow1 = pickle.load(open('/home/kegmon/kegmon/keg1.pkl', 'rb'))
+if((os.path.exists('/keg1.pkl'))):
+    flow1 = pickle.load(open('keg1.pkl', 'rb'))
 else:
     flow1 = FlowMeter("american", "right tap","quarter")
 
@@ -49,7 +49,7 @@ GPIO.add_event_detect(GPIO_tap1, GPIO.RISING, callback=draw1, bouncetime=20)
 
 #endregion
 #region MQTT Configuration
-def on_connect(client, userdata, flags, rc, properties):
+def on_connect(client, userdata, flags, rc):
     client.subscribe("keg")
 
 def on_connect_fail(client, userdata):
@@ -61,11 +61,11 @@ def on_disconnect(client, userdata, flags, rc, properties):
 
 def keg0status():
     client.publish("keg","flow0,"+flow0.getFormattedThisPour().split(" ",1)[0]+","+flow0.getFormattedTotalPour().split(" ",1)[0] + "," + flow0.getFormattedBeerLeft().split(" ",1)[0] + "," + flow0.getPercentLeft()+","+flow0.getKeg().capitalize()+","+flow0.getBeverage())
-    pickle.dump(flow0, open('/home/kegmon/kegmon/keg0.pkl', 'wb'))
+    pickle.dump(flow0, open('keg0.pkl', 'wb'))
 
 def keg1status():
     client.publish("keg","flow1,"+flow1.getFormattedThisPour().split(" ",1)[0]+","+flow1.getFormattedTotalPour().split(" ",1)[0] + "," + flow1.getFormattedBeerLeft().split(" ",1)[0] + "," + flow1.getPercentLeft()+","+flow1.getKeg().capitalize()+","+flow1.getBeverage())
-    pickle.dump(flow1, open('/home/kegmon/kegmon/keg1.pkl', 'wb'))
+    pickle.dump(flow1, open('keg1.pkl', 'wb'))
 
 def on_message(client, userdata, message):
     msg = str(message.payload.decode("utf-8"))
@@ -132,7 +132,7 @@ def on_message(client, userdata, message):
             client.publish("keg",flow1.getCali())
             keg1status()
 
-client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2,client_id="kegerator")
+client = mqtt.Client(client_id="kegerator")
 client.username_pw_set(username="homeassistant", password="AidaTh7EeP0puChoh6yuJieM5CooChohie6ioghahcoov7aJeekoof6fol0oovoo")
 client.on_connect=on_connect
 client.on_message=on_message
